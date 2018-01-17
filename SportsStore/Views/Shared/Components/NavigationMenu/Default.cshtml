@@ -1,0 +1,28 @@
+﻿@model IEnumerable<string>
+
+@{ 
+    var css = "btn btn-default";
+
+    var cssActive = "btn btn-default active";
+}
+
+<div class="btn-group-vertical">
+    @Html.ActionLink(
+        "Home", 
+        "List", 
+        "Product", 
+        new { category = "", page = 1 }, 
+        new { @class = ViewBag.Selected == null ? cssActive : css }
+    )
+
+    @foreach (var category in Model)
+    {
+        @Html.ActionLink(
+           @category, 
+           "List", 
+           "Product", 
+           new { category = category, page = 1 }, 
+           new { @class = (string)ViewBag.Selected == category ? cssActive : css }
+       )
+    }
+</div>

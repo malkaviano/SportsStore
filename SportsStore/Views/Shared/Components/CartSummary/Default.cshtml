@@ -1,0 +1,14 @@
+﻿@model SportsStore.Components.CartSummary
+
+<div>
+    <ul class="nav navbar-nav navbar-right">
+        @if (Model.Show)
+        {
+
+            <li><p class="navbar-text">Your cart: @Model.Items item(s)</p></li>
+            <li><p class="navbar-text">@Model.Total.ToString("c")</p></li>
+
+        }
+        <li><a class="btn" href="@Url.Action("Index", "Cart")"><i class="fa fa-shopping-cart"></i></a></li>
+    </ul>
+</div>

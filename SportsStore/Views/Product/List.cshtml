@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@model IEnumerable<Product>
+
+@foreach (var item in Model)
+{
+       @Html.Partial("ProductSummary", item)
+}
+
+<nav page-model="@ViewBag.PagingInfo" 
+     page-action="List"
+     page-ul-css="pagination"
+     page-active="active">
+</nav>

@@ -1,0 +1,16 @@
+﻿@model Product
+
+<div class="bg-faded">
+    <h4>
+        @Model.Name
+        <span class="badge">
+            @Model.Price.ToString("c")
+        </span>
+    </h4>
+</div>
+<div> @Model.Description</div>
+
+@using(Html.BeginForm("AddToCart", "Cart", new { Id = Model.Id }, FormMethod.Post))
+{
+    <button type="submit" class="btn btn-success">Add To Cart</button>
+}

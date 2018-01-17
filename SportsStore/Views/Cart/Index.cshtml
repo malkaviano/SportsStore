@@ -1,0 +1,52 @@
+﻿@model Cart
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Your Cart</div>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Quantity</td>
+                <td>Item</td>
+                <td>Price</td>
+                <td>Subtotal</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+            <tr>
+                <td>@item.Quantity</td>
+                <td>@item.Product.Name</td>
+                <td>@item.Product.Price.ToString("c")</td>
+                <td>@((item.Product.Price * item.Quantity).ToString("c"))</td>
+                <td>
+                    @using (Html.BeginForm("RemoveFromCart", "Cart", new { Id = item.Product.Id }, FormMethod.Post))
+                    {
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">Total:</td>
+                <td>@Model.Total.ToString("c")</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="center-block">
+    @Html.ActionLink("Continue Shopping", "List", "Product", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Checkout", "Checkout", "Order", null, new { @class = "btn btn-success" })
+</div>
