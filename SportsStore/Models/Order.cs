@@ -11,12 +11,19 @@ namespace SportsStore.Models
         public ShippingDetails Details { get; set; }
         public List<CartItem> Items { get; set; }
         public decimal Total { get; set; }
+        public bool Shipped { get; set; }
 
         public Order(ShippingDetails details, Cart cart)
         {
             Details = details;
             Items = cart.Items.ToList();
             Total = cart.Total;
+            Shipped = false;
+        }
+
+        private Order()
+        {
+
         }
     }
 }

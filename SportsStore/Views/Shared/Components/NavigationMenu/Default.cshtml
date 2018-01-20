@@ -11,7 +11,7 @@
         "Home", 
         "List", 
         "Product", 
-        new { category = "", page = 1 }, 
+        new { area = "", category = "", page = 1 }, 
         new { @class = ViewBag.Selected == null ? cssActive : css }
     )
 
@@ -21,7 +21,7 @@
            @category, 
            "List", 
            "Product", 
-           new { category = category, page = 1 }, 
+           new { area = "", category = category, page = 1 }, 
            new { @class = (string)ViewBag.Selected == category ? cssActive : css }
        )
     }

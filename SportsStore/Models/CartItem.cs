@@ -9,12 +9,17 @@ namespace SportsStore.Models
 
         public int Quantity { get; set; }
 
-        public Product Product { get; }
+        public Product Product { get; set; }
 
         public CartItem(Product product)
         {
             Product = product;
             Quantity = 1;
+        }
+
+        private CartItem()
+        {
+
         }
     }
 }

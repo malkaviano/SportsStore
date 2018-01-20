@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SportsStore.Areas.Admin.Models;
 using SportsStore.Migrations;
+using SportsStore.Migrations.AppIdentityDb;
 using SportsStore.Models;
 using SportsStore.Services;
 
@@ -31,6 +34,16 @@ namespace SportsStore
                     Configuration["Data:SportsStoreProducts:ConnectionString"]
                 )
             );
+
+            services.AddDbContext<AppIdentityDbContext>(
+                options => options.UseSqlServer(
+                    Configuration["Data:SportStoreIdentity:ConnectionString"]
+                )
+            );
+
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddTransient<IProductRepository, EFProductRepository>();
 
@@ -56,41 +69,49 @@ namespace SportsStore
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseSession();
+            app.UseAuthentication();
             app.UseMvc(
                 routes =>
                 {
                     routes.MapRoute(
-                        name: "pagination_filter",
+                      name: "",
+                      template: "{area:exists}/{controller}/{action}/{id?}"
+                    );
+
+                    routes.MapRoute(
+                        name: "",
                         template: "products/{category}/page{page:int}",
                         defaults: new { Controller = "Product", action = "List" }
                     );
 
                     routes.MapRoute(
-                        name: "pagination",
+                        name: "",
                         template: "products/page{page:int}",
                         defaults: new { Controller = "Product", action = "List" }
                     );
 
                     routes.MapRoute(
-                        name: "filter",
+                        name: "",
                         template: "products/{category}",
                         defaults: new { Controller = "Product", action = "List" }
                     );
 
                     routes.MapRoute(
-                        name: "products",
+                        name: "",
                         template: "products",
                         defaults: new { Controller = "Product", action = "List" }
                     );
 
                     routes.MapRoute(
                         name: "default",
-                        template: "{controller=Product}/{action=List}/{id?}"
+                        template: "{controller}/{action}/{id?}",
+                        defaults: new { Controller = "Product", action = "List" }
                     );
                 }
             );
 
             SeedData.EnsurePopulated(app.ApplicationServices.GetRequiredService<ApplicationDbContext>());
+            //SeedIdentityUser.EnsurePopulated(app.ApplicationServices.GetRequiredService<SignInManager<IdentityUser>>().UserManager);
         }
     }
 }

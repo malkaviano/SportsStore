@@ -11,7 +11,7 @@ using System;
 namespace SportsStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180117020853_Initial")]
+    [Migration("20180120234043_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,11 +28,15 @@ namespace SportsStore.Migrations
 
                     b.Property<Guid?>("OrderId");
 
+                    b.Property<Guid?>("ProductId");
+
                     b.Property<int>("Quantity");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("CartItem");
                 });
@@ -43,6 +47,8 @@ namespace SportsStore.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("DetailsId");
+
+                    b.Property<bool>("Shipped");
 
                     b.Property<decimal>("Total");
 
@@ -105,6 +111,10 @@ namespace SportsStore.Migrations
                     b.HasOne("SportsStore.Models.Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId");
+
+                    b.HasOne("SportsStore.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("SportsStore.Models.Order", b =>

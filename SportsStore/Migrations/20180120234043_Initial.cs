@@ -47,6 +47,7 @@ namespace SportsStore.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     DetailsId = table.Column<Guid>(nullable: true),
+                    Shipped = table.Column<bool>(nullable: false),
                     Total = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
@@ -66,6 +67,7 @@ namespace SportsStore.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     OrderId = table.Column<Guid>(nullable: true),
+                    ProductId = table.Column<Guid>(nullable: true),
                     Quantity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -77,12 +79,23 @@ namespace SportsStore.Migrations
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CartItem_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartItem_OrderId",
                 table: "CartItem",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItem_ProductId",
+                table: "CartItem",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_DetailsId",
@@ -96,10 +109,10 @@ namespace SportsStore.Migrations
                 name: "CartItem");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "ShippingDetails");
