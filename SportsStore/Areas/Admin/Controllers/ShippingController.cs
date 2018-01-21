@@ -9,6 +9,7 @@ using SportsStore.Models;
 namespace SportsStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class ShippingController : Controller
     {
         private IOrderRepository repository;

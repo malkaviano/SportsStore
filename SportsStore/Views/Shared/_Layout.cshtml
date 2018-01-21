@@ -13,7 +13,22 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">SPORTS STORE</a>
             </div>
-            @await Component.InvokeAsync("CartSummary")
+            <div>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (User.Identity.IsAuthenticated)
+    {
+                <li><a class="btn" href="@Url.Action("Logout", "Account", new { area = "" })"><i class="fa fa-user-times" aria-hidden="true"></i></a></li>
+}
+else
+{
+                <li><a class="btn" href="@Url.Action("Login", "Account", new { area = "" })"><i class="fa fa-user-o" aria-hidden="true"></i></a></li>
+}
+
+                    <li><a class="btn" href="@Url.Action("List", "Shipping", new { area = "admin" })"><i class="fa fa-truck" aria-hidden="true"></i></a></li>
+                    <li><a class="btn" href="@Url.Action("Index", "Stock", new { area = "admin" })"><i class="fa fa-wrench" aria-hidden="true"></i></a></li>
+                    @await Component.InvokeAsync("CartSummary")
+                </ul>
+            </div>
         </div>
     </nav>
     <div class="container">

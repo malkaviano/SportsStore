@@ -14,13 +14,13 @@ namespace SportsStore.Migrations.AppIdentityDb
         private const string adminUser = "Admin";
         private const string adminPassword = "Secret123$";
 
-        public static async void EnsurePopulated(UserManager<IdentityUser> userManager)
+        public static async void EnsurePopulated(UserManager<AppUser> userManager)
         {
             var user = await userManager.FindByIdAsync(adminUser);
 
             if (user == null)
             {
-                user = new IdentityUser(adminUser);
+                user = new AppUser { UserName = adminUser };
                 await userManager.CreateAsync(user, adminPassword);
             }
         }

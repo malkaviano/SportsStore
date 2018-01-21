@@ -111,7 +111,7 @@ namespace SportsStore
             );
 
             SeedData.EnsurePopulated(app.ApplicationServices.GetRequiredService<ApplicationDbContext>());
-            //SeedIdentityUser.EnsurePopulated(app.ApplicationServices.GetRequiredService<SignInManager<IdentityUser>>().UserManager);
+            SeedIdentityUser.EnsurePopulated(app.ApplicationServices.GetRequiredService<UserManager<AppUser>>());
         }
     }
 }
